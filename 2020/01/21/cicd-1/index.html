@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Jenkins, NAVER Cloud Platform, Docker로 CI/CD 무중단 배포 환경 구축하기 - 1편"><meta name="keywords" content="NAVER CLOUD,Jenkins,CI/CD"><meta name="author" content="Geum Doyun"><meta name="copyright" content="Geum Doyun"><title>Jenkins, NAVER Cloud Platform, Docker로 CI/CD 무중단 배포 환경 구축하기 - 1편 | Just Write It!</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 4.2.0"></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CI-CD란"><span class="toc-number">1.</span> <span class="toc-text">CI&#x2F;CD란?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#전체-시스템-구조"><span class="toc-number">2.</span> <span class="toc-text">전체 시스템 구조</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#선택의-순간들"><span class="toc-number">3.</span> <span class="toc-text">선택의 순간들</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AWS가-아닌-NAVER-CLOUD-선택"><span class="toc-number">3.1.</span> <span class="toc-text">AWS가 아닌 NAVER CLOUD 선택</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Travis가-아닌-Jenkins-선택"><span class="toc-number">3.2.</span> <span class="toc-text">Travis가 아닌 Jenkins 선택</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#환경-구축하기"><span class="toc-number"></span> <span class="toc-text">환경 구축하기</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Jenkins-설정하기"><span class="toc-number">1.</span> <span class="toc-text">1. Jenkins 설정하기</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-Jenkins-보안-설정"><span class="toc-number">1.1.</span> <span class="toc-text">1-1. Jenkins 보안 설정</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-플러그인-설치하기"><span class="toc-number">1.2.</span> <span class="toc-text">1-2. 플러그인 설치하기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-Jenkins-Global-설정하기"><span class="toc-number">1.3.</span> <span class="toc-text">1-3. Jenkins Global 설정하기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-프로젝트-생성-및-설정하기"><span class="toc-number">1.4.</span> <span class="toc-text">1-4. 프로젝트 생성 및 설정하기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ssh-키-생성하기"><span class="toc-number">1.5.</span> <span class="toc-text">ssh 키 생성하기</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">Geum Doyun</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">3</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">5</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">2</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://images.unsplash.com/photo-1555306210-a7dacfb0f72c?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2250&amp;q=80)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Just Write It!</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span></div><div id="post-info"><div id="post-title">Jenkins, NAVER Cloud Platform, Docker로 CI/CD 무중단 배포 환경 구축하기 - 1편</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-01-21</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/DevOps/">DevOps</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/DevOps/CI-CD/">CI/CD</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>이번 내용은 필자가 프로젝트를 진행하면서 처음으로 DevOps를 맡으면서 꼭 공유 하겠다고 마음 먹고 작성하였다.</p>
+<h2 id="CI-CD란"><a href="#CI-CD란" class="headerlink" title="CI/CD란?"></a>CI/CD란?</h2><ul>
+<li><p>CI(Continuous Integration)<br>지속적인 통합을 의미한다. 이는 개발자를 위한 자동화 프로세스 중 하나이며 어플리케이션을 변경할 때 자동으로 빌드 및 테스트되어 Github 공유 레포지토리에 병합된다. 그렇기에 협업 시 발생할 수 있는 충돌문제를 해결할 수 있다.</p>
+</li>
+<li><p>CD(Continuous Deployment)<br>지속적인 배포를 의미한다. 어플리케이션 변경 사항이 반영된 공유 레포지토리에서 사용자가 사용 가능한 환경까지 자동으로 배포하는 것을 말한다. 이를 통해 어플리케이션을 원활히 그리고 더 빠르게 제공하므로써 사용자의 피드백을 빠르게 반영할 수 있다.</p>
+</li>
+</ul>
+<p>아래는 필자가 맡은 프로젝트의 전체 시스템 구조이면서 동시에, CI/CD 과정을 볼 수 있다. </p>
+<h2 id="전체-시스템-구조"><a href="#전체-시스템-구조" class="headerlink" title="전체 시스템 구조"></a>전체 시스템 구조</h2><p><img src="https://images.velog.io/post-images/doyuni/2b871b30-2d11-11ea-8e78-f3280e026905/Untitled.png" alt="Untitled.png"></p>
+<p>대부분 Travis CI, AWS, Docker, NGINX를 사용하여 CI/CD 무중단 배포를 구축한다는 점에서 비교하여 보아도 좋을 것이다.</p>
+<h2 id="선택의-순간들"><a href="#선택의-순간들" class="headerlink" title="선택의 순간들"></a>선택의 순간들</h2><h3 id="AWS가-아닌-NAVER-CLOUD-선택"><a href="#AWS가-아닌-NAVER-CLOUD-선택" class="headerlink" title="AWS가 아닌 NAVER CLOUD 선택"></a>AWS가 아닌 NAVER CLOUD 선택</h3><p>AWS와 NAVER Cloud Platform을 사용해 보면서 느낀 것은 확실히 AWS의 기능이 훨씬 많고 유용하다.<br>그럼에도 NAVER Cloud Platform을 사용한 것은 40만 크레딧(지원 받았다.)이 제일 컸다.<br>AWS에는 무중단 배포까지 지원하는 서비스인 Blue-Green Deployment가 있는데 반해 NAVER Cloud는 없다…<br>그럼 굳이 왜 AWS를 선택하지 않았냐고 할 수 있는데 내가 직접 설정해서 구축하고 싶었기 때문이다. (사서 고생한다는 얘기)</p>
+<h3 id="Travis가-아닌-Jenkins-선택"><a href="#Travis가-아닌-Jenkins-선택" class="headerlink" title="Travis가 아닌 Jenkins 선택"></a>Travis가 아닌 Jenkins 선택</h3><p>Travis reference만 보아도 AWS랑 얼마나 죽이 잘 맞는지를 알 수 있다. (AWS말고도 Google Cloud, Azure도 지원한다.) 이미 NAVER Cloud를 선택한 이상 Travis는 더 어려운 방법으로 가는 길이라 생각했다. 오히려 설정할 수 있는 범위가 넓은 Jenkins를 택하는 것이 쉽다고 판단하였다. 처음에 AWS와 Travis로 자동화 배포 환경 구축을 연습했었는데, 개인적인 입장으로는 Jenkins가 좀 더 쉬운 것 같다.</p>
+<p>40만 크레딧의 위엄으로 Jenkins를 도커가 아닌 Naver Cloud로 서버를 따로 구축했다. 지금 생각해보면 자원 낭비인 셈이지만 안정성 측면에서는 따로 서버를 두는 것이 좋다.</p>
+<h1 id="환경-구축하기"><a href="#환경-구축하기" class="headerlink" title="환경 구축하기"></a>환경 구축하기</h1><p>NAVER Cloud 사용 설명서는 무척 잘 되어 있고 AWS의 EC2나 S3와 같은 개념과 똑같기에 같은 방식으로 설정하면 된다.</p>
+<p><img src="https://images.velog.io/post-images/doyuni/6081e180-2d11-11ea-8db4-a3d765df2b82/Untitled-1.png" alt="Untitled 1.png"></p>
+<ul>
+<li>NAVER Cloud의 Server = AWS의 EC2</li>
+<li>NAVER Cloud의 Object Storage = AWS의 S3</li>
+</ul>
+<p>아래와 같이 SourcePipeline 서비스를 이용하면 Github에서 push한 것을 자동으로 빌드하고 배포할 수 있는데, 아래 사진 우측 상단에 보이는 파이프라인 실행하기를 매번 클릭해줘야 한다…내가 원한건 push만 해도 자동화 빌드 및 배포이다. 결국 이걸 접고 Jenkins와 NAVER Cloud의 Server만 사용하기로 결정했다.</p>
+<p><img src="https://images.velog.io/post-images/doyuni/67d4e180-2d11-11ea-8db4-a3d765df2b82/Untitled-2.png" alt="Untitled 2.png"></p>
+<h2 id="1-Jenkins-설정하기"><a href="#1-Jenkins-설정하기" class="headerlink" title="1. Jenkins 설정하기"></a>1. Jenkins 설정하기</h2><p>Docker로 Jenkins 서버를 운영해도 되지만 NAVER Cloud에서 다음과 같이 지원하기에 사용하였다.<br>다만 수동으로 최신 업데이트 하는 것을 권장한다.</p>
+<p><img src="https://images.velog.io/post-images/doyuni/8fd2c3f0-2d11-11ea-8e78-f3280e026905/Untitled-3.png" alt="Untitled 3.png"></p>
+<h3 id="1-1-Jenkins-보안-설정"><a href="#1-1-Jenkins-보안-설정" class="headerlink" title="1-1. Jenkins 보안 설정"></a>1-1. Jenkins 보안 설정</h3><p>Jenkins는 기본적으로 보안 설정이 되어있지 않다.<br>Jenkins 관리 &gt; Configure Global Security에서 설정할 수 있다.</p>
+<p><img src="https://images.velog.io/post-images/doyuni/959ba180-2d11-11ea-89ca-7dd4c2f1609a/Untitled-4.png" alt="Untitled 4.png"></p>
+<ul>
+<li>처음에 사용자의 가입을 허용하여 admin 계정을 생성한다. 팀원과 함께 작업한다면 팀원 각각 계정 생성하도록 둔다.</li>
+<li>계정 생성을 끝냈으면 ‘Matrix-based security’를 적절히 설정한다. (없다면 Matrix Authorization Strategy Plugin를 설치하자.)<br>필자는 익명에게 읽기 권한 중 Job(Jenkins 작업 단위) 부분만 볼 수 있게 하였다. 이는 나중에 설정할 Github의 build status를 보여주기 위함이다.<br>그리고 혼자 환경 구축을 담당 하였기에 팀원 계정 역시 익명과 같은 권한을 주었다.</li>
+</ul>
+<h3 id="1-2-플러그인-설치하기"><a href="#1-2-플러그인-설치하기" class="headerlink" title="1-2. 플러그인 설치하기"></a>1-2. 플러그인 설치하기</h3><p>Jenkins 관리 &gt; 플러그인 관리</p>
+<ul>
+<li>Github plugin: Jenkins와 Github 통합</li>
+<li>Global Slack Notifier Plugin: Slack 연동(Job 알림 설정)</li>
+<li>Publish Over SSH: ssh로 빌드 파일 보내기</li>
+<li>Embeddable Build Status Plugin: Github 레포지토리에 빌드 상태바 생성</li>
+<li>Managed Scripts: Node.js 기반의 서버를 배포하기 위한 스크립트</li>
+</ul>
+<h3 id="1-3-Jenkins-Global-설정하기"><a href="#1-3-Jenkins-Global-설정하기" class="headerlink" title="1-3. Jenkins Global 설정하기"></a>1-3. Jenkins Global 설정하기</h3><p>Jenkins 관리 &gt; 시스템 설정 &gt; GitHub Servers에서 다음과 같이 설정한다.</p>
+<p><img src="https://images.velog.io/post-images/doyuni/9d14c720-2d11-11ea-89ca-7dd4c2f1609a/Untitled-5.png" alt="Untitled 5.png"></p>
+<p>Credentials 설정을 위해 자신의 Github &gt; Settings &gt; Developer settings &gt; Personal access tokens에서 다음과 같이 토큰을 생성한다.</p>
+<p><img src="https://images.velog.io/post-images/doyuni/a3d8a680-2d11-11ea-89ca-7dd4c2f1609a/Untitled-6.png" alt="Untitled 6.png"></p>
+<p>생성 후 화면에 보이는 secret 문자열을 아래의 Secret에 입력한다.</p>
+<p><img src="https://images.velog.io/post-images/doyuni/a7fd22e0-2d11-11ea-89ca-7dd4c2f1609a/Untitled-7.png" alt="Untitled 7.png"></p>
+<h3 id="1-4-프로젝트-생성-및-설정하기"><a href="#1-4-프로젝트-생성-및-설정하기" class="headerlink" title="1-4. 프로젝트 생성 및 설정하기"></a>1-4. 프로젝트 생성 및 설정하기</h3><p>새로운 Item을 클릭하고 프로젝트 이름을 입력, Freestyle을 누른다.</p>
+<p><img src="https://images.velog.io/post-images/doyuni/b08372c0-2d11-11ea-89ca-7dd4c2f1609a/Untitled-8.png" alt="Untitled 8.png"></p>
+<ul>
+<li>다음과 같이 프로젝트 url을 입력하고 Credentials를 설정한다.</li>
+</ul>
+<p><img src="https://images.velog.io/post-images/doyuni/b6af09c0-2d11-11ea-8db4-a3d765df2b82/Untitled-9.png" alt="Untitled 9.png"></p>
+<p>이 작업은 Github을 연동하는 것인데, ID와 PW로 연동하면 보안에 취약하기에 ssh키로 연동하였다.</p>
+<h3 id="ssh-키-생성하기"><a href="#ssh-키-생성하기" class="headerlink" title="ssh 키 생성하기"></a>ssh 키 생성하기</h3><ul>
+<li><p>ssh로 Jenkins 서버에 원격 접속하여 다음을 입력한다.</p>
+<p>  ssh-keygen -t rsa -f id_rsa</p>
+</li>
+</ul>
+<p><img src="https://images.velog.io/post-images/doyuni/bbb4e570-2d11-11ea-89ca-7dd4c2f1609a/Untitled-10.png" alt="Untitled 10.png"></p>
+<p><code>id_rsa</code>, <code>id_rsa.pub</code> 를 포함해 총 4개의 키가 생성된다.</p>
+<ul>
+<li>아래 Add 표시를 눌러 <code>cat ~/.ssh/id_rsa</code> 입력 후 나오는 private key를 넣어준다</li>
+</ul>
+<p><img src="https://images.velog.io/post-images/doyuni/c1bacc00-2d11-11ea-8e78-f3280e026905/Untitled-11.png" alt="Untitled 11.png"></p>
+<pre><code>BEGIN ~부터 모두 복사하여 입력한다.</code></pre><p><img src="https://images.velog.io/post-images/doyuni/cb35dc20-2d11-11ea-8e78-f3280e026905/Untitled-12.png" alt="Untitled 12.png"></p>
+<ul>
+<li>Github에 공개 키 등록하기.</li>
+</ul>
+<p><img src="https://images.velog.io/post-images/doyuni/d2eaab30-2d11-11ea-8e78-f3280e026905/Untitled-13.png" alt="Untitled 13.png"></p>
+<p><code>cat ~/.ssh/id_rsa.pub</code> 를 입력하면 나오는 공개 키를 프로젝트 레포지토리의 Setting &gt; Deploy keys에 등록한다.</p>
+<p><img src="https://images.velog.io/post-images/doyuni/d9ebe1b0-2d11-11ea-89ca-7dd4c2f1609a/Untitled-14.png" alt="Untitled 14.png"></p>
+<p>이제 Jenkins과 Github을 연동시켰기에, Jenkins에 코드를 가져올 수 있게 되었다.</p>
+<ul>
+<li>다음으로는 push했을 때 Jenkins가 push 이벤트를 받을 수 있도록 설정 해보자.<br>마찬가지로 레포지토리의 setting &gt; webhooks 에서 빨간색 네모박스에 Jenkins ip 주소를 입력하고 나머지는 그대로 입력한다.</li>
+</ul>
+<p><img src="https://images.velog.io/post-images/doyuni/df2a0b70-2d11-11ea-89ca-7dd4c2f1609a/Untitled-15.png" alt="Untitled 15.png"></p>
+<ul>
+<li>Github에서의 설정은 끝났고 Jenkins 프로젝트에서 다음을 체크함으로써 이벤트 설정은 끝이 났다.<br>이젠 push만 하면 Jenkins 해당 프로젝트에서 빌드가 시작됨을 볼 수 있다.</li>
+</ul>
+<p><img src="https://images.velog.io/post-images/doyuni/e2e69e40-2d11-11ea-8e78-f3280e026905/Untitled-16.png" alt="Untitled 16.png"></p>
+<p> 빌드 기록을 통해 소스 코드가 빌드 중인지 빌드 완료 되었는지를 확인할 수 있다.</p>
+<p><img src="https://images.velog.io/post-images/doyuni/e86c0a30-2d11-11ea-8e78-f3280e026905/Untitled-17.png" alt="Untitled 17.png"></p>
+<p>이것으로 Jenkins로 CI 환경 구축은 끝이 났다. 2편에서는 CD 환경 구축과 무중단 배포를 구축해보겠다.</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Geum Doyun</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://doyuni.github.io/2020/01/21/cicd-1/">https://doyuni.github.io/2020/01/21/cicd-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/NAVER-CLOUD/">NAVER CLOUD</a><a class="post-meta__tags" href="/tags/Jenkins/">Jenkins</a><a class="post-meta__tags" href="/tags/CI-CD/">CI/CD</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/01/21/cicd-2/"><i class="fa fa-chevron-left">  </i><span>cicd_2</span></a></div><div class="next-post pull-right"><a href="/2020/01/20/hello-world/"><span>Hello World</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(https://images.unsplash.com/photo-1555306210-a7dacfb0f72c?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2250&amp;q=80)"><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2020 By Geum Doyun</div><div class="framework-info"><span>Driven - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody" target="_blank" rel="noopener"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.1"></script><script src="/js/fancybox.js?version=1.6.1"></script><script src="/js/sidebar.js?version=1.6.1"></script><script src="/js/copy.js?version=1.6.1"></script><script src="/js/fireworks.js?version=1.6.1"></script><script src="/js/transition.js?version=1.6.1"></script><script src="/js/scroll.js?version=1.6.1"></script><script src="/js/head.js?version=1.6.1"></script><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script></body></html>
