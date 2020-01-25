@@ -27,19 +27,16 @@ ga('send', 'pageview');</script><link rel="canonical" href="https://doyuni.githu
 <li>경우의 수가 중복되지 않도록 표시해주는 배열은 2차원으로도 해결 가능하다. (전체 양은 일정하니 A, B만 알아도 C를 알 수 있기 때문이다.)</li>
 </ul>
 <ol>
-<li><p>처음 A, B, C의 부피를 저장한다.</p>
-</li>
-<li><p>시작은 (0, 0)에서 시작하고, ans[C 물의 양]이 true임을 표시해 A가 0일 때 C의 물의양임을 나타낸다.</p>
-</li>
-<li><p>BFS 탐색을 시작한다. 각 경우에서 계속해서 나아가는 방식이기에 적합하다. (경우의 수도 많지 않음)</p>
-</li>
+<li>처음 A, B, C의 부피를 저장한다.</li>
+<li>시작은 (0, 0)에서 시작하고, ans[C 물의 양]이 true임을 표시해 A가 0일 때 C의 물의양임을 나타낸다.</li>
+<li>BFS 탐색을 시작한다. 각 경우에서 계속해서 나아가는 방식이기에 적합하다. (경우의 수도 많지 않음)</li>
 <li><p>물을 옮기는 건 2가지 경우가 존재한다.</p>
 <p> from x → to y</p>
 <ol>
 <li><strong>x + y ≤ Y</strong><br>x + y의 값이 y를 가진 물통의 부피(Y)이하일 때<br>x를 다 옮길 수 있으므로 <strong>x를 가졌던 물통의 물의 양은 0</strong>이 된다.<br>y를 가진 물통의 물의 양은 <strong>x+y</strong>가 된다.</li>
 <li><strong>x + y &gt; Y</strong><br>x + y의 값이 Y보다 클 때 x를 다 옮길 수 없으므로<br>x를 가졌던 물통의 물의 양은 <strong>x + y - Y</strong>가된다.<br>y를 가졌던 물통의 물의 양은 <strong>Y</strong>가 된다.</li>
 </ol>
-<ol start="5">
+<ol>
 <li>check와 A의 물의 양이 0인지 판단하여 BFS 탐색을 한다.</li>
 </ol>
 </li>
