@@ -8,8 +8,15 @@
     </url>
 
     <url>
+        <loc>https://doyuni.github.io/categories/Java/JVM/</loc>
+        <lastmod>2020-01-26T08:30:27.821Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://doyuni.github.io/categories/Java/</loc>
-        <lastmod>2020-01-26T08:11:02.229Z</lastmod>
+        <lastmod>2020-01-26T08:30:27.821Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

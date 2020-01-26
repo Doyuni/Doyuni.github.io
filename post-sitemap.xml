@@ -8,6 +8,30 @@
     </url>
 
     <url>
+        <loc>https://doyuni.github.io/2020/01/02/Java/jvm/</loc>
+        <lastmod>2020-01-26T08:30:27.821Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://doyuni.github.io/2020/01/14/Java/cal-by-value/</loc>
+        <lastmod>2020-01-26T08:26:03.869Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://doyuni.github.io/2020/01/02/Java/stringVSstringBuffer/</loc>
+        <lastmod>2020-01-26T08:16:50.013Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://doyuni.github.io/2020/01/03/Java/java-null/</loc>
         <lastmod>2020-01-26T08:11:02.229Z</lastmod>
         <changefreq>weekly</changefreq>
