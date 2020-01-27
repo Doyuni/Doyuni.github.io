@@ -8,6 +8,22 @@
     </url>
 
     <url>
+        <loc>https://doyuni.github.io/2020/01/21/DevOps/cicd-2/</loc>
+        <lastmod>2020-01-26T23:59:41.292Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://doyuni.github.io/2020/01/21/DevOps/cicd-1/</loc>
+        <lastmod>2020-01-26T23:57:18.226Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://doyuni.github.io/2020/01/14/Java/cal-by-value/</loc>
         <lastmod>2020-01-26T08:42:14.764Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -450,22 +466,6 @@
     <url>
         <loc>https://doyuni.github.io/2020/01/25/Algorithm/BOJ/1938/</loc>
         <lastmod>2020-01-25T06:28:02.580Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://doyuni.github.io/2020/01/21/DevOps/cicd-2/</loc>
-        <lastmod>2020-01-25T04:56:07.289Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://doyuni.github.io/2020/01/21/DevOps/cicd-1/</loc>
-        <lastmod>2020-01-25T04:56:07.287Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
